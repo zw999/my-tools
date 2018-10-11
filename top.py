@@ -4,7 +4,6 @@ from free import meminfo
 import glob
 import time
 import os
-import pprint
 
 class proc(object):
     def __init__(self,pidf,sleep_time=1):
@@ -147,17 +146,17 @@ if __name__=='__main__':
         for i in _sort_list:
             pid, uid, prv, nice, virt, res, shr, state, cpuusage, runtime, cmd =i
 
-            #处理输出格式，过长变为xxxg
+            #处理输出格式，过长的变为xxxg
             new_res=res//1024
             if len(str(new_res)) > 6:
                 new_res=new_res/1024/1024
                 new_res='%5.3fg' % new_res
             else:
                 new_res='%6d' % new_res
-
+            #
             if prv == '-100':
                 prv='rt'
-
+            #python的进程加粗
             if  'python' in cmd:
                 print('\033[1m',end='')
             print('%5s %-7s %4s %3s %7d %6s %6d %1s %5.1f %4.1f %9s %-15s' % (pid,d_uid[uid],prv,nice,virt,new_res,shr/1024,state,cpuusage,round(res/1024/dd['MemTotal']*100,1),seconds2time(runtime/100),cmd[1:-1]))
